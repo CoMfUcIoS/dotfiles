@@ -1,0 +1,127 @@
+set number
+set t_Co=256
+syntax on
+set background=dark
+" colorscheme distinguished
+
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+set noerrorbells visualbell t_vb=
+autocmd GUIEnter * set visualbell t_vb=
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+"Plugin 'tpope/vim-fugitive'
+"Plugin 'scrooloose/nerdtree'
+Plugin 'othree/html5.vim'
+Plugin 'leshill/vim-json'
+Plugin 'tpope/vim-markdown'
+Plugin 'hail2u/vim-css3-syntax'
+Plugin 'cakebaker/scss-syntax.vim'
+Plugin 'editorconfig/editorconfig-vim'
+"Plugin 'tpope/vim-git'
+
+" Plugin 'kien/ctrlp.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'vim-airline/vim-airline'
+Plugin 'pangloss/vim-javascript'
+Plugin 'w0rp/ale'
+Plugin 'sirver/ultisnips'
+Plugin 'terryma/vim-multiple-cursors'
+"Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'mxw/vim-jsx'
+Plugin 'Raimondi/delimitMate'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'marijnh/tern_for_vim'
+Plugin 'skywind3000/asyncrun.vim'
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+" Nerd Tree
+"let g:NERDTreeDirArrowExpandable = '▸'
+"let g:NERDTreeDirArrowCollapsible = '▾'
+
+"autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+" CtrlP
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+
+" ALE
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\}
+
+let g:ale_fixers = {
+\   'javascript': ['eslint'],
+\}
+
+let g:ale_fix_on_save = 1
+"let g:ale_lint_on_save = 1
+"let g:ale_lint_on_text_changed = 'never'
+"let g:ale_set_highlights = 0
+let g:ale_sign_error = '●' " Less aggressive than the default '>>'
+let g:ale_sign_warning = '.'
+let g:ale_lint_on_enter = 0 " Less distracting when opening a new file
+
+autocmd BufWritePost *.js AsyncRun -post=checktime ./node_modules/.bin/eslint --fix %
+
+" YouCompleteMe
+" " These are the tweaks I apply to YCM's config, you don't need them but they might help.
+" YCM gives you popups and splits by default that some people might not like, so these should tidy it up a bit for you.
+"let g:ycm_add_preview_to_completeopt=0
+"let g:ycm_confirm_extra_conf=0
+"set completeopt-=preview
+
+" " the Flow plugin is useful but by default it type checks on save
+" don't need this to happen because Ale does that for us instead
+let g:flow#enable = 0
+
+" turns on Flow syntax highlighting
+" let g:javascript_plugin_flow = 1
+
+" looks for JSX in just .js files
+let g:jsx_ext_required = 0
+
+set history=500
+set expandtab
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set expandtab
+set autoindent
+
+set ignorecase smartcase
+
+set spelllang=en_gb
+syntax spell toplevel
+
+autocmd FileType markdown setlocal shiftwidth=4 softtabstop=4 tabstop=4 wrap linebreak nolist wrap lbr colorcolumn=0 synmaxcol=999999
+
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+
+set laststatus=2
+
+set linebreak
+
+set incsearch
+set hlsearch
+
+set scrolloff=5
+
+set nobackup
+set nowritebackup
+set noswapfile
+
+set backspace=indent,eol,start
+
+set wildignore+=*.o,*.obj,.git,node_modules,_site,*.class,*.zip,*.aux
+
+let g:localvimrc_persistent = 2
