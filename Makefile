@@ -34,8 +34,39 @@ uninstallVim: ## Removes symbolic links and restores old configurations if avail
 		fi;
 	@echo Uninstall of VIM done!
 
+installOhMyZSH: ## Installs Oh My Zsh if it doesnt exist, back up old configuration and links .zshrc
+	@if [ ! command -v zsh &> /dev/null ]; \
+		then \
+ 			$(error "Install ZSH first"); \
+	fi
+	@if [ -a ~/.oh-my-zsh ] ; \
+		then \
+			echo Backing up ..oh-my-zsh to ..oh-my-zsh.old; \
+			mv ~/..oh-my-zsh ~/..oh-my-zsh.old; \
+	fi;
+	@if [ -a ~/.zshrc  ] ; \
+		then \
+			echo Backing up .zshrc to .zshrc.old; \
+			mv ~/.zshrc ~/.zshrc.old; \
+	fi;
+	@if [ ! command -v curl &> /dev/null ]; \
+		then \
+ 			echo "Curl isn't installed, trying wget"; \
+		 	if [ ! command -v curl &> /dev/null ]; \
+		 		then \
+			 		echo "Also wget isn't install. Please install any of the above commands and try again"; \
+				else \
+					sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"; \
+			fi; \
+	else \
+		sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"; \
+ 	fi;
+	@echo Creating symbolic links
+	@ln -sf $(current_dir)/zsh/zhsrc ~/.zhsrc
+	@source ~/.zhsrc
+
 .DEFAULT_GOAL: help
 
 default: help
 
-.PHONY: help installVim uninstallVim
+.PHONY: help
