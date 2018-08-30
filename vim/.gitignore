@@ -3,4 +3,5 @@
 
 # But not these files...
 !.gitignore
-!Vundle.vim
+!bundle/Vundle.vim
+!vimrc
