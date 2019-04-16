@@ -1,6 +1,13 @@
 set number
 set t_Co=256
-syntax on
+"syntax on
+if has('autocmd')
+  filetype plugin indent on
+endif
+if has('syntax') && !exists('g:syntax_on')
+  syntax enable
+endif
+
 set background=dark
 " colorscheme distinguished
 
@@ -13,6 +20,10 @@ autocmd GUIEnter * set visualbell t_vb=
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
+Plugin 'tpope/vim-surround'
+Plugin 'gcmt/breeze.vim'
+Plugin 'tomtom/tcomment_vim'
+Plugin 'davidhalter/jedi-vim'
 "Plugin 'tpope/vim-fugitive'
 "Plugin 'scrooloose/nerdtree'
 Plugin 'othree/html5.vim'
@@ -27,6 +38,7 @@ Plugin 'editorconfig/editorconfig-vim'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'pangloss/vim-javascript'
 Plugin 'w0rp/ale'
 Plugin 'sirver/ultisnips'
@@ -37,10 +49,35 @@ Plugin 'Raimondi/delimitMate'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'marijnh/tern_for_vim'
 Plugin 'skywind3000/asyncrun.vim'
+
+" Color Themes
+Plugin 'colors'
+
 call vundle#end()            " required
+colorscheme Monokai
 filetype plugin indent on    " required
 
+set complete-=i
+set showmatch
+set showmode
+set smarttab
+
+set nrformats-=octal
+set shiftround
+
+set ttimeout
+set ttimeoutlen=50
+
+ " In many terminal emulators the mouse works just fine, thus enable it.
+if has('mouse')
+  set mouse=a
+endif
+
+" do not history when leavy buffer
+set hidden
+
 " Nerd Tree
+nnoremap <S-n> :NERDTreeToggle<CR>
 "let g:NERDTreeDirArrowExpandable = '▸'
 "let g:NERDTreeDirArrowCollapsible = '▾'
 
@@ -50,8 +87,20 @@ filetype plugin indent on    " required
 " CtrlP
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/.git/*,*/.hg/*,*/.svn/*     " MacOSX/Linux
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+
+" Ultisnip
+" NOTE: <f1> otherwise it overrides <tab> forever
+let g:UltiSnipsExpandTrigger="<f1>"
+let g:UltiSnipsJumpForwardTrigger="<f1>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+let g:did_UltiSnips_vim_after = 1
+
+" vim-airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+
 
 " ALE
 let g:ale_linters = {
@@ -97,6 +146,14 @@ set softtabstop=2
 set expandtab
 set autoindent
 
+set listchars=tab:▒░,trail:▓
+set list
+
+inoremap <C-U> <C-G>u<C-U>
+
+" Don't use Ex mode, use Q for formatting
+map Q gq
+
 set ignorecase smartcase
 
 set spelllang=en_gb
@@ -108,10 +165,19 @@ autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
 set laststatus=2
+set ruler
+set showcmd
+set wildmenu
+
+set autoread
 
 set linebreak
 
 set incsearch
+" Use <C-L> to clear the highlighting of :set hlsearch.
+if maparg('<C-L>', 'n') ==# ''
+  nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
+endif
 set hlsearch
 
 set scrolloff=5
@@ -119,6 +185,7 @@ set scrolloff=5
 set nobackup
 set nowritebackup
 set noswapfile
+set fileformats=unix,dos,mac
 
 set backspace=indent,eol,start
 
@@ -126,7 +193,67 @@ set wildignore+=*.o,*.obj,.git,node_modules,_site,*.class,*.zip,*.aux
 
 let g:localvimrc_persistent = 2
 
-nnoremap <Left> :echo "No left for you!"<CR>
-nnoremap <Right> :echo "No Right for you!"<CR>
-nnoremap <Up> :echo "No Up for you!"<CR>
-nnoremap <Down> :echo "No Down for you!"<CR>
+" FIXME: (broken) ctrl s to save
+noremap  <C-S> :update<CR>
+vnoremap <C-S> <C-C>:update<CR>
+inoremap <C-S> <Esc>:update<CR>
+
+" exit insert mode
+inoremap <C-c> <Esc>
+
+set completeopt=menuone,longest,preview
+
+"nnoremap <Left> :echo "No left for you!"<CR>
+"nnoremap <Right> :echo "No Right for you!"<CR>
+"nnoremap <Up> :echo "No Up for you!"<CR>
+"nnoremap <Down> :echo "No Down for you!"<CR>
+
+
+" Shortcuts
+
+" Find
+map <C-f> /
+
+" indent / deindent after selecting the text with (⇧ v), (.) to repeat.
+vnoremap <Tab> >
+vnoremap <S-Tab> <
+
+" comment / decomment & normal comment behavior
+vmap <C-m> gc
+" Disable tComment to escape some entities
+let g:tcomment#replacements_xml={}
+" Text wrap simpler, then type the open tag or ',"
+vmap <C-w> S
+" Cut, Paste, Copy
+vmap <C-x> d
+vmap <C-v> p
+vmap <C-c> y
+" Undo, Redo (broken)
+nnoremap <C-z>  :undo<CR>
+inoremap <C-z>  <Esc>:undo<CR>
+nnoremap <C-y>  :redo<CR>
+inoremap <C-y>  <Esc>:redo<CR>
+" Tabs
+let g:airline_theme='badwolf'
+let g:airline#extensions#tabline#enabled = 1
+nnoremap <C-b>  :tabprevious<CR>
+inoremap <C-b>  <Esc>:tabprevious<CR>i
+nnoremap <C-n>  :tabnext<CR>
+inoremap <C-n>  <Esc>:tabnext<CR>i
+nnoremap <C-t>  :tabnew<CR>
+inoremap <C-t>  <Esc>:tabnew<CR>i
+nnoremap <C-k>  :tabclose<CR>
+inoremap <C-k>  <Esc>:tabclose<CR>i
+
+" lazy ':'
+map \ :
+
+let mapleader = ','
+nnoremap <Leader>p :set paste<CR>
+nnoremap <Leader>o :set nopaste<CR>
+noremap  <Leader>g :GitGutterToggle<CR>
+
+" this machine config
+if filereadable(expand("~/.vimrc.local"))
+  source ~/.vimrc.local
+endif
