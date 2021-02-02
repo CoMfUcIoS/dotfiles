@@ -65,6 +65,22 @@ installOhMyZSH: ## Installs Oh My Zsh if it doesnt exist, back up old configurat
 	@ln -sf $(current_dir)/zsh/zhsrc ~/.zhsrc
 	@source ~/.zhsrc
 
+installTmux: ## Creates a symbolic links for tmux
+	@if [ -a ~/.tmux.conf ] ; \
+		then \
+			echo Backing up .tmux.conf to .tmux.conf.old; \
+			mv ~/.tmux.conf ~/.tmux.conf.old; \
+		fi;
+	@if [ -a ~/.tmux  ] ; \
+		then \
+			echo Backing up .tmux folder to .tmux.old; \
+			mv ~/.tmux ~/.tmux.old; \
+		fi;
+	@echo Creating symbolic links
+	@ln -sf $(current_dir)/tmux.conf ~/.tmux.conf
+	@mkdir -p ~/.tmux
+	@echo installation finished.
+
 .DEFAULT_GOAL: help
 
 default: help
