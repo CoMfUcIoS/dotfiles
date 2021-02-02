@@ -49,11 +49,17 @@ Plugin 'Raimondi/delimitMate'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'marijnh/tern_for_vim'
 Plugin 'skywind3000/asyncrun.vim'
+Plugin 'fatih/vim-go'
+Plugin 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
+"Plugin 'nsf/gocode', {'rtp': 'vim/'}
 
 " Color Themes
 Plugin 'colors'
 
+Plugin 'vimwiki/vimwiki'
+
 call vundle#end()            " required
+"Bundle 'Blackrush/vim-gocode'
 colorscheme Monokai
 filetype plugin indent on    " required
 
