@@ -4,6 +4,11 @@ current_dir = $(shell pwd)
 help: ## Shows this help.
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
+iNvim:
+	@curl -fLo ./nvim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+
 iVim: ## Creates a symbolic link of vim folder in your home folder. Also backup your old .vim folder and .vimrc
 	@if [ -a ~/.vimrc ] ; \
 		then \
