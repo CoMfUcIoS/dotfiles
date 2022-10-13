@@ -4,7 +4,7 @@ current_dir = $(shell pwd)
 help: ## Shows this help.
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
-iNvim:
+iNvim: ## Creates a symbolic link to the nvim config file and its plugins.
 	@curl -fLo ./nvim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
