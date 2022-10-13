@@ -3,5 +3,6 @@
 # But not these files...
 !.gitignore
 !colors/Monokai.vim
+!bundle/
 !bundle/Vundle.vim
 !vimrc
