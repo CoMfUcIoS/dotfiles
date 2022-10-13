@@ -63,6 +63,9 @@ iOhMyZSH: ## Installs Oh My Zsh if it doesnt exist, back up old configuration an
  	fi;
 	@echo Creating symbolic links
 	@ln -sf $(current_dir)/zsh/zhsrc ~/.zhsrc
+	@cp -r ~/.oh-my-zsh/custom/plugins/* $(current_dir)/zsh/custom/plugins
+	@mv ~/.oh-my-zsh/custom/plugins ~/.oh-my-zsh/custom/plugins.old
+	@ln -sf $(current_dir)/zsh/custom/plugins ~/.oh-my-zsh/custom/plugins
 	@source ~/.zhsrc
 
 iTmux: ## Creates a symbolic links for tmux
@@ -78,7 +81,9 @@ iTmux: ## Creates a symbolic links for tmux
 		fi;
 	@echo Creating symbolic links
 	@ln -sf $(current_dir)/tmux.conf ~/.tmux.conf
-	@mkdir -p ~/.tmux
+	@cp -r ~/.tmux/plugins/* $(current_dir)/tmux/plugins
+	@mv ~/.tmux/plugins ~/.tmux/plugins.old
+	@ln -sf $(current_dir)/tmux/plugins ~/.tmux/plugins
 	@echo installation finished.
 
 .DEFAULT_GOAL: help
