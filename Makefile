@@ -4,7 +4,7 @@ current_dir = $(shell pwd)
 help: ## Shows this help.
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
-installVim: ## Creates a symbolic link of vim folder in your home folder. Also backup your old .vim folder and .vimrc
+iVim: ## Creates a symbolic link of vim folder in your home folder. Also backup your old .vim folder and .vimrc
 	@if [ -a ~/.vimrc ] ; \
 		then \
 			echo Backing up .vimrc to .vimrc.old; \
@@ -19,7 +19,7 @@ installVim: ## Creates a symbolic link of vim folder in your home folder. Also b
 	@ln -sf $(current_dir)/vim ~/.vim
 	@echo installation finished.
 
-uninstallVim: ## Removes symbolic links and restores old configurations if available
+uVim: ## Removes symbolic links and restores old configurations if available
 	@echo uninstalling vim
 	@rm ~/.vim
 	@if [ -a ~/.vimrc.old ] ; \
@@ -34,7 +34,7 @@ uninstallVim: ## Removes symbolic links and restores old configurations if avail
 		fi;
 	@echo Uninstall of VIM done!
 
-installOhMyZSH: ## Installs Oh My Zsh if it doesnt exist, back up old configuration and links .zshrc
+iOhMyZSH: ## Installs Oh My Zsh if it doesnt exist, back up old configuration and links .zshrc
 	@if [ ! command -v zsh &> /dev/null ]; \
 		then \
  			$(error "Install ZSH first"); \
@@ -65,7 +65,7 @@ installOhMyZSH: ## Installs Oh My Zsh if it doesnt exist, back up old configurat
 	@ln -sf $(current_dir)/zsh/zhsrc ~/.zhsrc
 	@source ~/.zhsrc
 
-installTmux: ## Creates a symbolic links for tmux
+iTmux: ## Creates a symbolic links for tmux
 	@if [ -a ~/.tmux.conf ] ; \
 		then \
 			echo Backing up .tmux.conf to .tmux.conf.old; \

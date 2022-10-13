@@ -7,7 +7,7 @@ export ZSH=/Users/ioannis.karasavvaidis/.oh-my-zsh
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="robbyrussell" # "comfucios"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -51,7 +51,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-lfs branch brew command-not-found docker docker-compose github gitignore git-prompt golang history iterm2 jira kubectl nmap node npm npx nvm osx postgres python rbenv redis-cli rsync ruby ssh-agent sudo tmux vscode xcode yarn)
+plugins=(git git-lfs jsontools last-working-dir branch brew command-not-found docker docker-compose github gitignore git-prompt golang kubectl history history-substring-search node npm nvm macos rvm rsync ruby ssh-agent tmux vscode yarn zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -63,11 +63,11 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+ if [[ -n $SSH_CONNECTION ]]; then
+   export EDITOR='vim'
+ else
+   export EDITOR='nvim'
+ fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -108,7 +108,9 @@ load-nvmrc() {
   if [ -n "$nvmrc_path" ]; then
     local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
 
-    if [ "$nvmrc_node_version" != "N/A" ] && [ "$nvmrc_node_version" != "$node_version" ]; then
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$node_version" ]; then
       nvm use
     fi
   elif [ "$node_version" != "$(nvm version default)" ]; then
@@ -119,10 +121,17 @@ load-nvmrc() {
 add-zsh-hook chpwd load-nvmrc
 load-nvmrc
 
+#export GOPATH=~/go
+
 alias hgrep="history | grep -i"
 
 # git aliases
 alias gl="git log --pretty=format:\"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset\" --abbrev-commit"
+alias gprm="git pull --rebase upstream master"
+function gpr {
+  git pull --rebase $1 $2
+}
+
 
 # npm
 alias n="node"
@@ -135,6 +144,9 @@ alias nl="npm link"
 alias nr="npm run"
 alias nt="npm test"
 alias ns="npm start"
+
+# vim diff
+function vimdiff { vim -p $(git diff --name-only) -c 'tabdo VCSVimDiff'}
 
 # highlight pasting
 # https://gist.github.com/jimbojsb/1630790
@@ -157,7 +169,7 @@ get_suspended_jobs() {
   fi
 }
 
-# taken from https://github.com/r00k/dotfiles/blob/master/zsh/functions
+
 function git-new-remote-tracking {
   git checkout -b $1 && git push -u origin $1
 }
@@ -165,6 +177,10 @@ function git-new-remote-tracking {
 function git-nuke {
   git branch -D $1 && git push origin :$1
 }
+
+# Puppet Discovery/Remediate Aliases
+alias pd="/Users/ioannis.karasavvaidis/go/src/github.com/puppetlabs/cloud-discovery/bin/dev-local/darwin-amd64/puppet-discovery"
+
 
 compdef _git git-nuke=git-checkout
 
@@ -192,22 +208,19 @@ youtube-audio() {
 export GOPATH=~/go
 export PATH="/usr/local/bin:$GOPATH/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
-
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/ioannis.karasavvaidis/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ioannis.karasavvaidis/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/ioannis.karasavvaidis/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ioannis.karasavvaidis/google-cloud-sdk/completion.zsh.inc'; fi
 export PATH="/usr/local/opt/ruby/bin:$PATH"
 
 export PATH="/usr/local/opt/mysql-client/bin:$PATH"
 
 export LIBRARY_PATH="$LIBRARY_PATH:/usr/local/opt/openssl/lib/"
 
-eval "$(rbenv init -)"
+#PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+#LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
+#CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
+#PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 
-export DOCKER_BUILDKIT=1
+#export DOCKER_BUILDKIT=1
+
 
 knownhosts () {
   cp ~/.ssh/known_hosts ~/.ssh/known_hosts_$(date +%Y%m%d-%H%M%S) ;
@@ -215,3 +228,128 @@ knownhosts () {
   mv ~/.ssh/known_hosts_new ~/.ssh/known_hosts ;
   chmod 644 ~/.ssh/known_hosts
 }
+
+alias d2="cd ~/.wine_d2/drive_c/Program\ Files/Diablo\ II && WINEPREFIX=~/.wine_d2 wine Game.exe -nofixaspect -w"
+alias d2plugy="cd ~/.wine_d2plugy/drive_c/Program\ Files/Diablo\ II/ && WINEPREFIX=~/.wine_d2plugy wine PlugY.exe -direct -txt -w"
+
+#source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+source "/opt/homebrew/Cellar/kube-ps1/0.7.0/share/kube-ps1.sh"
+RPS1=' $(kube_ps1)'
+
+source /Users/ioannis.karasavvaidis/.gvm/scripts/gvm
+# krew path
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+#source /usr/local/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+source "/opt/homebrew/Cellar/zsh-vi-mode/0.8.5/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
+ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
+ZVM_VI_EDITOR=nvim
+
+ if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
+export PATH="/usr/local/opt/php@7.4/bin:$PATH"
+export PATH="/usr/local/opt/php@7.4/sbin:$PATH"
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
+# AUTOCOMPLETION
+
+# initialize autocompletion
+autoload -U compinit
+compinit
+
+# history setup
+setopt APPEND_HISTORY
+setopt SHARE_HISTORY
+HISTFILE=$HOME/.zhistory
+SAVEHIST=1000
+HISTSIZE=999
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt EXTENDED_HISTORY
+
+# autocompletion using arrow keys (based on history)
+bindkey '\e[A' history-search-backward
+bindkey '\e[B' history-search-forward
+
+# GENERAL
+
+# (bonus: Disable sound errors in Zsh)
+
+# never beep
+setopt NO_BEEP
+
+source $HOME/.oh-my-zsh/custom/plugins/zsh-histdb/sqlite-history.zsh
+autoload -Uz add-zsh-hook
+#add-zsh-hook precmd histdb-update-outcome
+
+# Query to pull in the most recent command if anything was found similar
+# in that directory. Otherwise pull in the most recent command used anywhere
+# Give back the command that was used most recently
+_zsh_autosuggest_strategy_histdb_top_fallback() {
+    local query="
+    select commands.argv from
+    history left join commands on history.command_id = commands.rowid
+    left join places on history.place_id = places.rowid
+    where places.dir LIKE
+        case when exists(select commands.argv from history
+        left join commands on history.command_id = commands.rowid
+        left join places on history.place_id = places.rowid
+        where places.dir LIKE '$(sql_escape $PWD)%'
+        AND commands.argv LIKE '$(sql_escape $1)%')
+            then '$(sql_escape $PWD)%'
+            else '%'
+            end
+    and commands.argv LIKE '$(sql_escape $1)%'
+    group by commands.argv
+    order by places.dir LIKE '$(sql_escape $PWD)%' desc,
+        history.start_time desc
+    limit 1"
+    suggestion=$(_histdb_query "$query")
+}
+
+ZSH_AUTOSUGGEST_STRATEGY=histdb_top_fallback
+
+show_local_history() {
+    limit="${1:-10}"
+    local query="
+        select history.start_time, commands.argv
+        from history left join commands on history.command_id = commands.rowid
+        left join places on history.place_id = places.rowid
+        where places.dir LIKE '$(sql_escape $PWD)%'
+        order by history.start_time desc
+        limit $limit
+    "
+    results=$(_histdb_query "$query")
+    echo "$results"
+}
+# Grep
+search_local_history() {
+    show_local_history 100 | grep "$1"
+}
+
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/ioannis.karasavvaidis/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ioannis.karasavvaidis/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/ioannis.karasavvaidis/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ioannis.karasavvaidis/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+
+eval "$(rbenv init - zsh)"
+
+# PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+# LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
+# CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
+# PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
+
+#export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
+
+
+# PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+# LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
+# CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
+# PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
+
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
+
+export DEV_ROOT=~/apps/
+export PATH=/Users/ioannis.karasavvaidis/.meteor:$PATH

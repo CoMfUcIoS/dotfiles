@@ -1,0 +1,7 @@
+# Ignore everything
+*
+# But not these files...
+!.gitignore
+!./autoload/plug.vim
+!init.vim
+!coc-settings.json
