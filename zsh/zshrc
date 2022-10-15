@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/ioannis.karasavvaidis/.oh-my-zsh
+export ZSH=/Users/ioanniskarasavvaidis/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -94,7 +94,6 @@ PAGER='less'
 
 LC_ALL='en_US.UTF-8'
 
-
 export NVM_DIR="$HOME/opt/bin/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
@@ -178,10 +177,6 @@ function git-nuke {
   git branch -D $1 && git push origin :$1
 }
 
-# Puppet Discovery/Remediate Aliases
-alias pd="/Users/ioannis.karasavvaidis/go/src/github.com/puppetlabs/cloud-discovery/bin/dev-local/darwin-amd64/puppet-discovery"
-
-
 compdef _git git-nuke=git-checkout
 
 function nvm_prompt_info() {
@@ -229,19 +224,16 @@ knownhosts () {
   chmod 644 ~/.ssh/known_hosts
 }
 
-alias d2="cd ~/.wine_d2/drive_c/Program\ Files/Diablo\ II && WINEPREFIX=~/.wine_d2 wine Game.exe -nofixaspect -w"
-alias d2plugy="cd ~/.wine_d2plugy/drive_c/Program\ Files/Diablo\ II/ && WINEPREFIX=~/.wine_d2plugy wine PlugY.exe -direct -txt -w"
-
-#source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
-source "/opt/homebrew/Cellar/kube-ps1/0.7.0/share/kube-ps1.sh"
+source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+#source "/opt/homebrew/Cellar/kube-ps1/0.7.0/share/kube-ps1.sh"
 RPS1=' $(kube_ps1)'
 
-source /Users/ioannis.karasavvaidis/.gvm/scripts/gvm
+#source /Users/ioannis.karasavvaidis/.gvm/scripts/gvm
 # krew path
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
-#source /usr/local/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
-source "/opt/homebrew/Cellar/zsh-vi-mode/0.8.5/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
+source /usr/local/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+#source "/opt/homebrew/Cellar/zsh-vi-mode/0.8.5/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
 ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
 ZVM_VI_EDITOR=nvim
 
@@ -328,10 +320,10 @@ search_local_history() {
 
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/ioannis.karasavvaidis/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ioannis.karasavvaidis/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+#if [ -f '/Users/ioannis.karasavvaidis/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ioannis.karasavvaidis/Downloads/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/ioannis.karasavvaidis/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ioannis.karasavvaidis/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+#if [ -f '/Users/ioannis.karasavvaidis/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ioannis.karasavvaidis/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
 
 
 eval "$(rbenv init - zsh)"
@@ -349,7 +341,8 @@ eval "$(rbenv init - zsh)"
 # CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
 # PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
+#. /opt/homebrew/opt/asdf/libexec/asdf.sh
 
 export DEV_ROOT=~/apps/
-export PATH=/Users/ioannis.karasavvaidis/.meteor:$PATH
+#export PATH=/Users/ioannis.karasavvaidis/.meteor:$PATH
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

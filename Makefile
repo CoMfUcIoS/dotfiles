@@ -86,9 +86,9 @@ iTmux: ## Creates a symbolic links for tmux
 		fi;
 	@echo Creating symbolic links
 	@ln -sf $(current_dir)/tmux.conf ~/.tmux.conf
-	@cp -r ~/.tmux/plugins/* $(current_dir)/tmux/plugins
-	@mv ~/.tmux/plugins ~/.tmux/plugins.old
-	@ln -sf $(current_dir)/tmux/plugins ~/.tmux/plugins
+	# @cp -r ~/.tmux/plugins/* $(current_dir)/tmux/plugins
+	# @mv ~/.tmux/plugins ~/.tmux/plugins.old
+	@ln -sf $(current_dir)/tmux/plugins ~/.tmux
 	@echo installation finished.
 
 .DEFAULT_GOAL: help

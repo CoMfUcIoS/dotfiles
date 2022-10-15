@@ -11,7 +11,7 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
   \| PlugInstall --sync | source $MYVIMRC
 \| endif
 
-let g:python3_host_prog = '/Users/ioannis.karasavvaidis/.pyenv/shims/python'
+let g:python3_host_prog = '/Users/ioanniskarasavvaidis/.pyenv/shims/python'
 let g:python_host_prog='/usr/bin/python2'
 
 set statusline+=%{coc#status()}
