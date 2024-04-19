@@ -55,7 +55,12 @@ install_OhMyZSH: ## Installs Oh My Zsh if it doesnt exist, back up old configura
  	fi;
 	echo Creating symbolic links
 	ln -sf $(current_dir)/zsh/zhsrc ~/.zhsrc
-	cp -r ~/.oh-my-zsh/custom/plugins/* $(current_dir)/zsh/custom/plugins
+	echo fetching plugins
+	if [ -a ]
+	git clone https://github.com/sobolevn/wakatime-zsh-plugin.git wakatime
+  git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+  git clone https://github.com/larkery/zsh-histdb ~/.oh-my-zsh/custom/plugins/zsh-histdb
+  zsh-autosuggestions
 	mv ~/.oh-my-zsh/custom/plugins ~/.oh-my-zsh/custom/plugins.old
 	ln -sf $(current_dir)/zsh/custom/plugins ~/.oh-my-zsh/custom/plugins
 	source ~/.zhsrc

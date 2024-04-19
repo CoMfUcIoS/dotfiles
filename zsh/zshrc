@@ -51,7 +51,7 @@ ZSH_THEME="robbyrussell" # "comfucios"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(zsh-local-ai git git-lfs jsontools last-working-dir branch brew command-not-found docker docker-compose github gitignore git-prompt golang kubectl history history-substring-search node npm nvm macos rvm rsync ruby ssh-agent tmux vscode yarn zsh-autosuggestions)
+plugins=(wakatime zsh-local-ai git git-lfs jsontools last-working-dir branch brew command-not-found docker docker-compose github gitignore git-prompt golang kubectl history history-substring-search node npm nvm macos rvm rsync ruby ssh-agent tmux vscode yarn zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
