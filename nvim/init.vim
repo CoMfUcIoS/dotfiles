@@ -13,7 +13,6 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 
 let g:python3_host_prog = '/Users/ioanniskarasavvaidis/.pyenv/shims/python'
 let g:python_host_prog='/usr/bin/python2'
-
 set statusline+=%{coc#status()}
 
 call plug#begin()
@@ -29,7 +28,6 @@ else
   let g:coc_global_extensions = ['coc-graphql', 'coc-phpactor', 'coc-sql',  'coc-cmake', 'coc-browser', 'coc-svg', 'coc-tsserver','coc-eslint', 'coc-stylelint', 'coc-pyright', 'coc-markdownlint', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-git' ]  " list of CoC extensions needed
 
   Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } } " this is for the firevim plugin
-  Plug 'wakatime/vim-wakatime' " this is for the wakatime plugin (for tracking time spent in vim)
   Plug 'nvim-lua/plenary.nvim' " this is for the plenary plugin (for lua)
   Plug 'github/copilot.vim' " this is for the copilot plugin (for copilot)
   Plug 'sindrets/diffview.nvim' " this is for the diffview ( git diff ) )
@@ -181,7 +179,32 @@ inoremap <silent><expr> <Tab>
 
 " this is a comment so you remember this later
 " insert mode; no recursive; map; <from>; <to>
-inoremap jk <Esc>
+inoremap ne <Esc>
+
+" Colemak DH mappings
+noremap f e
+noremap p r
+noremap b t
+noremap j y
+noremap l u
+noremap u i
+noremap y o
+noremap Y O
+noremap ' p
+noremap r s
+noremap s d
+noremap t f
+noremap m h
+noremap N J
+noremap n j
+noremap E K
+noremap e k
+noremap i l
+noremap o ;
+noremap d v
+noremap v b
+noremap k n
+noremap h m
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
