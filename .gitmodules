@@ -38,3 +38,6 @@
   path = tmux/plugins/vim-tmux-navigator
   url = https://git::@github.com/christoomey/vim-tmux-navigator
 
+[submodule "nvim"]
+	path = nvim
+	url = git@github.com:CoMfUcIoS/neovim.git
