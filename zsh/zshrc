@@ -51,9 +51,11 @@ ZSH_THEME="robbyrussell" # "comfucios"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-lfs jsontools last-working-dir branch brew command-not-found docker docker-compose github gitignore git-prompt golang kubectl history history-substring-search node npm nvm macos rvm rsync ruby ssh-agent tmux vscode yarn zsh-autosuggestions)
+plugins=(zsh-local-ai git git-lfs jsontools last-working-dir branch brew command-not-found docker docker-compose github gitignore git-prompt golang kubectl history history-substring-search node npm nvm macos rvm rsync ruby ssh-agent tmux vscode yarn zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
+
+bindkey '^X' create_completion
 
 # User configuration
 
@@ -125,9 +127,11 @@ load-nvmrc
 
 alias hgrep="history | grep -i"
 
+alias nukeProcess="ps -ef | grep -i $1 | grep -v grep | awk '{print $2}' | xargs kill -9"
+
 # git aliases
 alias gl="git log --pretty=format:\"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset\" --abbrev-commit"
-alias gprm="git pull --rebase upstream master"
+alias gprm="git pull --rebase upstream main"
 function gpr {
   git pull --rebase $1 $2
 }
@@ -181,7 +185,6 @@ function git-nuke {
 # Puppet Discovery/Remediate Aliases
 alias pd="/Users/ioannis.karasavvaidis/go/src/github.com/puppetlabs/cloud-discovery/bin/dev-local/darwin-amd64/puppet-discovery"
 
-
 compdef _git git-nuke=git-checkout
 
 function nvm_prompt_info() {
@@ -212,7 +215,7 @@ export PATH="/usr/local/opt/ruby/bin:$PATH"
 
 export PATH="/usr/local/opt/mysql-client/bin:$PATH"
 
-export LIBRARY_PATH="$LIBRARY_PATH:/usr/local/opt/openssl/lib/"
+#export LIBRARY_PATH="$LIBRARY_PATH:/usr/local/opt/openssl/lib/"
 
 #PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
 #LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
@@ -232,16 +235,13 @@ knownhosts () {
 alias d2="cd ~/.wine_d2/drive_c/Program\ Files/Diablo\ II && WINEPREFIX=~/.wine_d2 wine Game.exe -nofixaspect -w"
 alias d2plugy="cd ~/.wine_d2plugy/drive_c/Program\ Files/Diablo\ II/ && WINEPREFIX=~/.wine_d2plugy wine PlugY.exe -direct -txt -w"
 
-#source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
-source "/opt/homebrew/Cellar/kube-ps1/0.7.0/share/kube-ps1.sh"
-RPS1=' $(kube_ps1)'
 
 source /Users/ioannis.karasavvaidis/.gvm/scripts/gvm
 # krew path
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 #source /usr/local/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
-source "/opt/homebrew/Cellar/zsh-vi-mode/0.8.5/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
+source "/opt/homebrew/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
 ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
 ZVM_VI_EDITOR=nvim
 
@@ -251,6 +251,11 @@ export PATH="/usr/local/opt/php@7.4/sbin:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
+
+eval "$(fzf --zsh)"
+
+eval "$(zoxide init zsh --cmd cd)"
+
 # AUTOCOMPLETION
 
 # initialize autocompletion
@@ -353,3 +358,28 @@ eval "$(rbenv init - zsh)"
 
 export DEV_ROOT=~/apps/
 export PATH=/Users/ioannis.karasavvaidis/.meteor:$PATH
+export PATH=/Users/ioannis.karasavvaidis/my_bin:$PATH
+#alias ssh="kitty +kitten ssh"
+
+ #source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
+  #PS1=' $(kube_ps1)'$PS1
+
+export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/libffi/lib/pkgconfig"export PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"
+
+PATH=~/.console-ninja/.bin:$PATH
+# pnpm
+export PNPM_HOME="/Users/ioannis.karasavvaidis/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+. "$HOME/.atuin/bin/env"
+
+eval "$(atuin init zsh)"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
